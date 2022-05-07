@@ -1,0 +1,20 @@
+package com.jnu.gulimall.ware.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.jnu.common.utils.PageUtils;
+import com.jnu.gulimall.ware.entity.PurchaseDetailEntity;
+
+import java.util.Map;
+
+/**
+ * 
+ *
+ * @author ych
+ * @email 2625856353@qq.com
+ * @date 2022-05-04 20:38:25
+ */
+public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
+
+    PageUtils queryPage(Map<String, Object> params);
+}
+
