@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: gulimall-order
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://110.40.220.85:3306/gulimall_oms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
@@ -8,9 +10,6 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
-  application:
-    name: gulimall-order
-
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
