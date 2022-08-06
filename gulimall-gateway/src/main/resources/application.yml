@@ -1,19 +1,25 @@
+server:
+  port: 88
+
 spring:
+  application:
+    name: gulimall-gateway
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
     gateway:
       routes:
-        #        - id: test_route
-        #          uri: https://www.baidu.com
-        #          predicates:
-        #            - Query=url,baidu
-        #
-        #        - id: qq_route
-        #          uri: https://www.qq.com
-        #          predicates:
-        #            - Query=url,qq
+#        - id: test_route
+#          uri: https://www.baidu.com
+#          predicates:
+#            - Query=url,baidu
+#
+#        - id: qq_route
+#          uri: https://www.qq.com
+#          predicates:
+#            - Query=url,qq
+
         - id: product_route
           uri: lb://gulimall-product
           predicates:
@@ -28,15 +34,8 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
 
-
-  application:
-    name: gulimall-gateway
-
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
       id-type: auto
-
-server:
-  port: 88

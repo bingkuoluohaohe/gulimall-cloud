@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
-
+import java.util.Objects;
 
 
 /**
@@ -25,7 +27,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
-    @Autowired
+    @Resource
     private CouponService couponService;
 
     @Value("${coupon.user.name}")
@@ -35,16 +37,16 @@ public class CouponController {
 
     @RequestMapping("/test")
     public R test(){
-
-        return R.ok().put("name",name).put("age",age);
+        return Objects.requireNonNull(R.ok().put("name", name)).put("age",age);
     }
 
     @RequestMapping("/member/list")
-    public R membercoupons(){
+    public R memberCoupons(){
         CouponEntity couponEntity = new CouponEntity();
         couponEntity.setCouponName("满100减10");
-        return R.ok().put("coupons",Arrays.asList(couponEntity));
+        return R.ok().put("coupons", Collections.singletonList(couponEntity));
     }
+
     /**
      * 列表
      */

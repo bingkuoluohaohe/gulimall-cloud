@@ -1,5 +1,6 @@
 package com.jnu.gulimall.product;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.jnu.gulimall.product.entity.BrandEntity;
 import com.jnu.gulimall.product.service.BrandService;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,9 +25,14 @@ public class GulimallProductApplicationTests {
 //        brandEntity.setName("华为");
 //        brandService.save(brandEntity);
 //        System.out.println("保存成功");
-        brandEntity.setBrandId(2l);
+        brandEntity.setBrandId(1l);
         brandEntity.setDescript("huawei");
         brandService.updateById(brandEntity);
+        List<BrandEntity> list =
+                brandService.list(new LambdaQueryWrapper<BrandEntity>().like(BrandEntity::getDescript,"huawei"));
+        for (BrandEntity entity : list) {
+            System.out.println(entity);
+        }
     }
 
 }

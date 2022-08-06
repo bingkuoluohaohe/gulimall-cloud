@@ -24,18 +24,19 @@ import java.util.Map;
 @RestController
 @RequestMapping("member/member")
 public class MemberController {
-    @Autowired
+    @Resource
     private MemberService memberService;
 
     @Resource
     private CouponFeignService couponFeignService;
+
     @RequestMapping("/coupons")
     public R test(){
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setNickname("张三");
 
-        R membercoupons = couponFeignService.membercoupons();
-        return R.ok().put("member",memberEntity).put("coupons",membercoupons.get("coupons"));
+        R member = couponFeignService.memberCoupons();
+        return R.ok().put("member",memberEntity).put("coupons",member.get("coupons"));
     }
 
     /**
