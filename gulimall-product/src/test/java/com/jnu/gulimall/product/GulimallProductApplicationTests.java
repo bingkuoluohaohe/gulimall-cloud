@@ -3,6 +3,7 @@ package com.jnu.gulimall.product;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.jnu.gulimall.product.entity.BrandEntity;
 import com.jnu.gulimall.product.service.BrandService;
+import com.jnu.gulimall.product.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -22,6 +24,9 @@ public class GulimallProductApplicationTests {
 
     @Resource
     private BrandService brandService;
+
+    @Resource
+    private CategoryService categoryService;
 
     @Test
     public void contextLoads() {
@@ -39,4 +44,9 @@ public class GulimallProductApplicationTests {
         }
     }
 
+    @Test
+    public void testFindCatelogPath(){
+        Long[] catelogPath = categoryService.findCatelogPath(225L);
+        System.out.println(Arrays.toString(catelogPath));
+    }
 }

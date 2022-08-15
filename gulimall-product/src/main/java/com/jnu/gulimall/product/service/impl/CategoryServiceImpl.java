@@ -7,18 +7,21 @@ import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.Query;
 import com.jnu.gulimall.product.dao.CategoryDao;
 import com.jnu.gulimall.product.entity.CategoryEntity;
+import com.jnu.gulimall.product.service.CategoryBrandRelationService;
 import com.jnu.gulimall.product.service.CategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import javax.annotation.Resource;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Resource
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -36,10 +39,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         //2、组装成父子的树形结构
         //2.1）、找到所有的一级分类
         return entities.stream().filter
-                (categoryEntity -> categoryEntity.getParentCid() == 0)
+                        (categoryEntity -> categoryEntity.getParentCid() == 0)
                 .peek((menu) -> menu.setChildren(getChildrens(menu, entities))).
                 sorted(Comparator.comparingInt
-                (menu -> (menu.getSort() == null ? 0 : menu.getSort()))
+                        (menu -> (menu.getSort() == null ? 0 : menu.getSort()))
                 ).collect(Collectors.toList());
     }
 
@@ -47,18 +50,43 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     private List<CategoryEntity> getChildrens(CategoryEntity root, List<CategoryEntity> all) {
 
         return all.stream().filter
-        (categoryEntity -> Objects.equals(categoryEntity.getParentCid(), root.getCatId()))
-        .peek(categoryEntity -> {//1、找到子菜单
-            categoryEntity.setChildren(getChildrens(categoryEntity, all));
-        }).sorted(
-        Comparator.comparingInt(menu -> (menu.getSort() == null ? 0 : menu.getSort()))
-        ).collect(Collectors.toList());
+                        (categoryEntity -> Objects.equals(categoryEntity.getParentCid(), root.getCatId()))
+                .peek(categoryEntity -> {//1、找到子菜单
+                    categoryEntity.setChildren(getChildrens(categoryEntity, all));
+                }).sorted(
+                        Comparator.comparingInt(menu -> (menu.getSort() == null ? 0 : menu.getSort()))
+                ).collect(Collectors.toList());
     }
 
     @Override
     public void removeMenuByids(List<Long> asList) {
         // TODO 1.检查当前删除的菜单，是否被别的地方引用
         baseMapper.deleteBatchIds(asList);
+    }
+
+    @Override
+    public Long[] findCatelogPath(Long id) {
+        List<Long> paths = new ArrayList<>();
+        findParentPath(id, paths);
+        return paths.toArray(new Long[0]);
+    }
+
+    /**
+     * 级联更新所有关联数据
+     */
+    @Override
+    @Transactional
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
+    }
+
+    private void findParentPath(Long categoryId, List<Long> paths) {
+        CategoryEntity category = this.getById(categoryId);
+        paths.add(0, categoryId);
+        if (category.getParentCid() != 0) {
+            findParentPath(category.getParentCid(), paths);
+        }
     }
 }
 
