@@ -1,13 +1,6 @@
 server:
   port: 9000
 spring:
-  application:
-    name: gulimall-order
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://110.40.220.85:3306/gulimall_oms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: 48691412
   cloud:
     nacos:
       discovery:

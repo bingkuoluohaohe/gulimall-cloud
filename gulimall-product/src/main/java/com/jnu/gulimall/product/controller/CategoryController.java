@@ -4,7 +4,6 @@ import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.R;
 import com.jnu.gulimall.product.entity.CategoryEntity;
 import com.jnu.gulimall.product.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

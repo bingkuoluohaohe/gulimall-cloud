@@ -1,18 +1,15 @@
 server:
-  port: 10001
+  port: 10000
 
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://110.40.220.85:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: 48691412
   cloud:
     alicloud:
       access-key: LTAI5tSkvhNmJF4h5qbZqBsF
       secret-key: lgHjabatTWp0T2WfchecLv1bBXqaq6
       oss:
         endpoint: oss-cn-shanghai.aliyuncs.com
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

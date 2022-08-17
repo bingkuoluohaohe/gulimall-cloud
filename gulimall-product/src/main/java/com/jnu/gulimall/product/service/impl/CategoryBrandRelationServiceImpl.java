@@ -12,11 +12,14 @@ import com.jnu.gulimall.product.dao.CategoryDao;
 import com.jnu.gulimall.product.entity.BrandEntity;
 import com.jnu.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.jnu.gulimall.product.entity.CategoryEntity;
+import com.jnu.gulimall.product.service.BrandService;
 import com.jnu.gulimall.product.service.CategoryBrandRelationService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("categoryBrandRelationService")
@@ -27,6 +30,12 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     @Resource
     private CategoryDao categoryDao;
+
+    @Resource
+    private CategoryBrandRelationDao relationDao;
+
+    @Resource
+    private BrandService brandService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -60,6 +69,16 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public void updateCategory(Long catId, String name) {
         this.baseMapper.updateCategory(catId, name);
+    }
+
+    @Override
+    public List<BrandEntity> getBrandsByCatId(Long catId) {
+        List<CategoryBrandRelationEntity> catelogId = relationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        return catelogId.stream().map(item -> {
+            Long brandId = item.getBrandId();
+            return brandService.getById(brandId);
+        }).collect(Collectors.toList());
+
     }
 
 }

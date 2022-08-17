@@ -3,14 +3,17 @@ package com.jnu.gulimall.product.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.R;
+import com.jnu.gulimall.product.entity.BrandEntity;
 import com.jnu.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.jnu.gulimall.product.service.CategoryBrandRelationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jnu.gulimall.product.vo.BrandVo;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -23,8 +26,31 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/categorybrandrelation")
 public class CategoryBrandRelationController {
-    @Autowired
+    @Resource
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    /**
+     * /product/categorybrandrelation/brands/list
+     *
+     * 1、Controller：处理请求，接受和校验数据
+     * 2、Service接受controller传来的数据，进行业务处理
+     * 3、Controller接受Service处理完的数据，封装页面指定的vo
+     */
+    @GetMapping("/brands/list")
+    public R relationBrandsList(@RequestParam(value = "catId", required = true) Long catId) {
+        List<BrandEntity> vos = categoryBrandRelationService.getBrandsByCatId(catId);
+
+        List<BrandVo> collect = vos.stream().map(item -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getBrandId());
+            brandVo.setBrandName(item.getName());
+
+            return brandVo;
+        }).collect(Collectors.toList());
+
+        return R.ok().put("data", collect);
+
+    }
 
     /**
      * 列表
@@ -43,7 +69,7 @@ public class CategoryBrandRelationController {
     @GetMapping("/catelog/list")
     //@RequiresPermissions("product:categorybrandrelation:list")
     public R catelogList(@RequestParam("brandId") Long brandId) {
-        List<CategoryBrandRelationEntity> data = categoryBrandRelationService.list(new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id",brandId));
+        List<CategoryBrandRelationEntity> data = categoryBrandRelationService.list(new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId));
 
         return R.ok().put("data", data);
     }

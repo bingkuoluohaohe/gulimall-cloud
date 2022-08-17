@@ -1,6 +1,5 @@
 package com.jnu.gulimall.product.dao;
 
-import com.jnu.gulimall.product.entity.BrandEntity;
 import com.jnu.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

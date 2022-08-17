@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.R;
 
+import javax.annotation.Resource;
 
 
 /**
@@ -27,7 +28,7 @@ import com.jnu.common.utils.R;
 @RestController
 @RequestMapping("ware/purchasedetail")
 public class PurchaseDetailController {
-    @Autowired
+    @Resource
     private PurchaseDetailService purchaseDetailService;
 
     /**

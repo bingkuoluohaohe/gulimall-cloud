@@ -1,17 +1,12 @@
 server:
   port: 11000
 spring:
-  application:
-    name: gulimall-ware
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://110.40.220.85:3306/gulimall_wms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: 48691412
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

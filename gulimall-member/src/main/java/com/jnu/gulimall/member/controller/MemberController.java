@@ -5,7 +5,6 @@ import com.jnu.common.utils.R;
 import com.jnu.gulimall.member.entity.MemberEntity;
 import com.jnu.gulimall.member.feign.CouponFeignService;
 import com.jnu.gulimall.member.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

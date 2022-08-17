@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.Query;
 import com.jnu.gulimall.product.dao.BrandDao;
-import com.jnu.gulimall.product.dao.CategoryBrandRelationDao;
 import com.jnu.gulimall.product.entity.BrandEntity;
 import com.jnu.gulimall.product.service.BrandService;
 import com.jnu.gulimall.product.service.CategoryBrandRelationService;

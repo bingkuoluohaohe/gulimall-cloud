@@ -5,15 +5,11 @@ import com.jnu.common.utils.R;
 import com.jnu.common.valid.AddGroup;
 import com.jnu.gulimall.product.entity.BrandEntity;
 import com.jnu.gulimall.product.service.BrandService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 

@@ -4,7 +4,6 @@ import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.R;
 import com.jnu.gulimall.coupon.entity.CouponEntity;
 import com.jnu.gulimall.coupon.service.CouponService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
@@ -30,15 +29,15 @@ public class CouponController {
     @Resource
     private CouponService couponService;
 
-    @Value("${coupon.user.name}")
-    private String name;
-    @Value("${coupon.user.age}")
-    private Integer age;
-
-    @RequestMapping("/test")
-    public R test(){
-        return Objects.requireNonNull(R.ok().put("name", name)).put("age",age);
-    }
+//    @Value("${coupon.user.name}")
+//    private String name;
+//    @Value("${coupon.user.age}")
+//    private Integer age;
+//
+//    @RequestMapping("/test")
+//    public R test(){
+//        return Objects.requireNonNull(R.ok().put("name", name)).put("age",age);
+//    }
 
     @RequestMapping("/member/list")
     public R memberCoupons(){

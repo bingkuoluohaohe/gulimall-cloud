@@ -3,18 +3,14 @@ package com.jnu.gulimall.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.jnu.gulimall.coupon.entity.SpuBoundsEntity;
 import com.jnu.gulimall.coupon.service.SpuBoundsService;
+import org.springframework.web.bind.annotation.*;
+
 import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.R;
 
+import javax.annotation.Resource;
 
 
 /**
@@ -27,7 +23,7 @@ import com.jnu.common.utils.R;
 @RestController
 @RequestMapping("coupon/spubounds")
 public class SpuBoundsController {
-    @Autowired
+    @Resource
     private SpuBoundsService spuBoundsService;
 
     /**
@@ -56,11 +52,10 @@ public class SpuBoundsController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     //@RequiresPermissions("coupon:spubounds:save")
     public R save(@RequestBody SpuBoundsEntity spuBounds){
-		spuBoundsService.save(spuBounds);
-
+        spuBoundsService.save(spuBounds);
         return R.ok();
     }
 

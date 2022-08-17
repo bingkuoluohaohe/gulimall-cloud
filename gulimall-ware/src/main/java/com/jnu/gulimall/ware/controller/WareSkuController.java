@@ -3,6 +3,7 @@ package com.jnu.gulimall.ware.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.jnu.gulimall.ware.service.WareSkuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jnu.gulimall.ware.entity.WareSkuEntity;
-import com.jnu.gulimall.ware.service.WareSkuService;
 import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.R;
 

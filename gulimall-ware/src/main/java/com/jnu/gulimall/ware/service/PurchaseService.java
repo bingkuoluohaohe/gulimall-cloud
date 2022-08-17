@@ -3,7 +3,11 @@ package com.jnu.gulimall.ware.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jnu.common.utils.PageUtils;
 import com.jnu.gulimall.ware.entity.PurchaseEntity;
+import com.jnu.gulimall.ware.vo.MergeVo;
+import com.jnu.gulimall.ware.vo.PurchaseDoneVo;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +20,14 @@ import java.util.Map;
 public interface PurchaseService extends IService<PurchaseEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    @Transactional
+    void mergePurchase(MergeVo mergeVo);
+
+    void received(List<Long> ids);
+
+    void done(PurchaseDoneVo doneVo);
+
+    PageUtils queryPageUnreceivePurchase(Map<String, Object> params);
 }
 
