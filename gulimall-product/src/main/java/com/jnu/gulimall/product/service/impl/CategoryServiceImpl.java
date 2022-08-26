@@ -9,6 +9,7 @@ import com.jnu.gulimall.product.dao.CategoryDao;
 import com.jnu.gulimall.product.entity.CategoryEntity;
 import com.jnu.gulimall.product.service.CategoryBrandRelationService;
 import com.jnu.gulimall.product.service.CategoryService;
+import com.jnu.gulimall.product.vo.Catalog2Vo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,6 +80,53 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public void updateCascade(CategoryEntity category) {
         this.updateById(category);
         categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
+    }
+
+    //    @Cacheable(value = "category",key = "#root.method.name",sync = true)
+    @Override
+    public List<CategoryEntity> getLevel1Categorys() {
+        return baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", 0));
+    }
+
+    @Override
+    public Map<String, List<Catalog2Vo>> getCatalogJson() {
+        //1.加入缓存逻辑
+//        String catelogJSON = redisTemplate.opsForValue().get("catelogJSON");
+//        if (StringUtils.isEmpty(catelogJSON)){
+//            //2.缓存中没有,查询数据库
+//            System.out.println("缓存未命中.....查询数据库");
+//            Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDbWithRedisLock();
+//            //3.查到的数据再放入缓存,将对象转为json放在缓存中
+//        }
+//        System.out.println("缓存命中.....直接返回");
+//        Map<String, List<Catalog2Vo>> result = JSON.parseObject(catelogJSON, new TypeReference<Map<String, List<Catalog2Vo>>>() {
+//        });
+
+        List<CategoryEntity> level1Categorys = getLevel1Categorys();
+
+        Map<String, List<Catalog2Vo>> listMap = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
+            List<CategoryEntity> entities = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", v.getCatId()));
+            List<Catalog2Vo> list = null;
+            if (entities != null) {
+                list = entities.stream().map(l2 -> {
+                    Catalog2Vo catalog2Vo = new Catalog2Vo(v.getCatId().toString(), null, l2.getCatId().toString(), l2.getName());
+                    List<CategoryEntity> categoryEntities = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", l2.getCatId()));
+                    if (categoryEntities != null) {
+                        List<Catalog2Vo.Catalog3Vo> collect = categoryEntities.stream().map(l3 -> {
+                            Catalog2Vo.Catalog3Vo catalog3Vo = new Catalog2Vo.Catalog3Vo(l2.getCatId().toString(),l3.getCatId().toString(),l3.getName());
+
+                            return catalog3Vo;
+                        }).collect(Collectors.toList());
+                        catalog2Vo.setCatalog3List(collect);
+                    }
+
+                    return catalog2Vo;
+                }).collect(Collectors.toList());
+            }
+            return list;
+        }));
+
+        return listMap;
     }
 
     private void findParentPath(Long categoryId, List<Long> paths) {

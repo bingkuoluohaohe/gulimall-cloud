@@ -1,6 +1,6 @@
 package com.jnu.gulimall.product.exception;
 
-import com.jnu.common.exception.BizCodeeNUME;
+import com.jnu.common.exception.BizCodeEnum;
 import com.jnu.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -31,15 +31,15 @@ public class GulimallExceptionControllerAdvice {
             String field = item.getField();
             map.put(field, defaultMessage);
         });
-        return R.error(BizCodeeNUME.VAILD_EXCEPTION.getCode(),
-                BizCodeeNUME.VAILD_EXCEPTION.getMsg()).put("data",
+        return R.error(BizCodeEnum.VALID_EXCEPTION.getCode(),
+                BizCodeEnum.VALID_EXCEPTION.getMsg()).put("data",
                 map);
     }
 
     @ExceptionHandler(value = Throwable.class)
     public R handleException(Throwable throwable) {
         log.error("错误：",throwable);
-        return R.error(BizCodeeNUME.UNKNOW_EXCEPTION.getCode(),
-                BizCodeeNUME.UNKNOW_EXCEPTION.getMsg());
+        return R.error(BizCodeEnum.UNKNOW_EXCEPTION.getCode(),
+                BizCodeEnum.UNKNOW_EXCEPTION.getMsg());
     }
 }

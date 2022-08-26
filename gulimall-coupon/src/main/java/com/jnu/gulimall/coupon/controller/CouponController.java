@@ -4,7 +4,6 @@ import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.R;
 import com.jnu.gulimall.coupon.entity.CouponEntity;
 import com.jnu.gulimall.coupon.service.CouponService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +11,6 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
 
 
 /**

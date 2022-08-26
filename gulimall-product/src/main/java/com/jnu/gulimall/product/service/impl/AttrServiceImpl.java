@@ -110,6 +110,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
+    public List<Long> selectSearchAttrs(List<Long> attrIds) {
+        return this.baseMapper.selectSearchAttrs(attrIds);
+    }
+
+    @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params), new QueryWrapper<>());
 
