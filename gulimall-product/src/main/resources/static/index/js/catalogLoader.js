@@ -11,7 +11,7 @@ $(function(){
                 $.each(ctgnumArray,function (i,ctg1Id) {
                     var ctg2list= ctgall[ctg1Id];
                     $.each(ctg2list,function (i,ctg2) {
-                        var cata2link=$("<a href='#' style= 'color: #111;' class='aaa'>"+ctg2.name+"  ></a>");
+                        var cata2link=$("<a href='http://localhost:12000/list.html' style= 'color: #111;' class='aaa'>"+ctg2.name+"  ></a>");
 
 
                         console.log(cata2link.html());
@@ -19,7 +19,7 @@ $(function(){
                         var  ctg3List=ctg2["catalog3List"];
                         var len=0;
                         $.each(ctg3List,function (i,ctg3) {
-                            var cata3link = $("<a href=\"http://search.gmall.com/list.html?catalog3Id="+ctg3.id+"\" style=\"color: #999;\">" + ctg3.name + "</a>");
+                            var cata3link = $("<a href=\"http://localhost:12000/list.html?catalog3Id="+ctg3.id+"\" style=\"color: #999;\">" + ctg3.name + "</a>");
                             li.append(cata3link);
                             len=len+1+ctg3.name.length;
                         });

@@ -1,15 +1,16 @@
 package com.jnu.gulimall.coupon.service.impl;
 
-import com.jnu.gulimall.coupon.dao.SeckillPromotionDao;
-import com.jnu.gulimall.coupon.entity.SeckillPromotionEntity;
-import com.jnu.gulimall.coupon.service.SeckillPromotionService;
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.Query;
+import com.jnu.gulimall.coupon.dao.SeckillPromotionDao;
+import com.jnu.gulimall.coupon.entity.SeckillPromotionEntity;
+import com.jnu.gulimall.coupon.service.SeckillPromotionService;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 
 @Service("seckillPromotionService")
