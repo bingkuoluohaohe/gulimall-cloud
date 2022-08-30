@@ -10,7 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.jnu.gulimall</groupId>
     <artifactId>gulimall-search</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -20,6 +22,39 @@
     </properties>
 
     <dependencies>
+        <!--httpclient-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.6</version>
+        </dependency>
+        <!--fastjson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.51</version>
+        </dependency>
+        <!--spring-session-data-redis-->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+        <!--redis-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.lettuce</groupId>
+                    <artifactId>lettuce-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--jedis，redis客户端-->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
         <!--spring-boot-starter-thymeleaf-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
