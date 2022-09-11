@@ -4,6 +4,9 @@ import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.R;
 import com.jnu.gulimall.product.entity.CategoryEntity;
 import com.jnu.gulimall.product.service.CategoryService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,11 +22,23 @@ import java.util.Map;
  * @email 2625856353@qq.com
  * @date 2022-05-06 15:47:52
  */
+@Slf4j
 @RestController
+@RefreshScope
 @RequestMapping("product/category")
 public class CategoryController {
+
+    @Value("${server.port}")
+    private String port;
+
     @Resource
     private CategoryService categoryService;
+
+    @RequestMapping("/getPort")
+    public String getPort() {
+        log.debug(port);
+        return port;
+    }
 
     /**
      * 查出所有分类以及子分类，以树形结构组装起来
@@ -93,7 +108,7 @@ public class CategoryController {
     @RequestMapping("/delete")
     //@RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] catIds) {
-        //categoryService.removeByIds(Arrays.asList(catIds));
+//        categoryService.removeByIds(Arrays.asList(catIds));
         categoryService.removeMenuByids(Arrays.asList(catIds));
         return R.ok();
     }

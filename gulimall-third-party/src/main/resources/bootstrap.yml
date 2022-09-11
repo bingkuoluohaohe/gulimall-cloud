@@ -4,7 +4,7 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 127.0.0.1:8848
+        server-addr: localhost:5000
         namespace: b198100f-738e-4ac6-9ec1-8359fd4a6f68
         ext-config:
           - dataId: oss.yaml

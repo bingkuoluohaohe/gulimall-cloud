@@ -3,6 +3,8 @@ package com.jnu.gulimall.product.app;
 import com.jnu.common.utils.PageUtils;
 import com.jnu.common.utils.R;
 import com.jnu.common.valid.AddGroup;
+import com.jnu.common.valid.UpdateGroup;
+import com.jnu.common.valid.UpdateStatusGroup;
 import com.jnu.gulimall.product.entity.BrandEntity;
 import com.jnu.gulimall.product.service.BrandService;
 import org.springframework.validation.annotation.Validated;
@@ -67,11 +69,22 @@ public class BrandController {
     }
 
     /**
+     * 修改状态
+     */
+    @RequestMapping("/update/status")
+    //@RequiresPermissions("product:brand:update")
+    public R updateStatus(@Validated(UpdateStatusGroup.class) @RequestBody BrandEntity brand){
+        brandService.updateById(brand);
+
+        return R.ok();
+    }
+
+    /**
      * 修改
      */
     @RequestMapping("/update")
     //@RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand) {
+    public R update(@Validated({UpdateGroup.class}) @RequestBody BrandEntity brand) {
         brandService.updateDetail(brand);
 
         return R.ok();

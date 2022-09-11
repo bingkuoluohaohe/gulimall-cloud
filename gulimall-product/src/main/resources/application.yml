@@ -1,6 +1,5 @@
 server:
-  port: 13000
-
+  port: 10001
 spring:
   cloud:
     alicloud:
@@ -20,6 +19,9 @@ spring:
     redis:
       time-to-live: 3600000
       key-prefix: CACHE_
+  mvc:
+    servlet:
+      load-on-startup: 100
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
