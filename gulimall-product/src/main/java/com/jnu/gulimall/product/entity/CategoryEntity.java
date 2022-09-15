@@ -60,7 +60,9 @@ public class CategoryEntity implements Serializable {
 	 * 商品数量
 	 */
 	private Integer productCount;
-
+    /**
+     * 子节点
+     */
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@TableField(exist=false)
 	private List<CategoryEntity> children;

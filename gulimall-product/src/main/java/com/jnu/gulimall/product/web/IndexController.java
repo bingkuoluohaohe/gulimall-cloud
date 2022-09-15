@@ -13,14 +13,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author zr
- * @date 2021/10/27 15:23
+ * @author ych
+ * @date 2022/9/4 15:23
  */
 @Controller
 public class IndexController {
     @Resource
     private CategoryService categoryService;
 
+    /**
+     * 商城首页
+     */
     @GetMapping({"/", "index.html"})
     public String indexPage(Model model) {
         // TODO 1、查出所有1级分类
@@ -34,7 +37,7 @@ public class IndexController {
      * 1级分类作为key，2级引用List
      */
     @ResponseBody
-    @GetMapping("/index/catalog.json")
+    @GetMapping("/product/index/catalog.json")
     public Map<String, List<Catalog2Vo>> getCatalogJson() {
         Map<String, List<Catalog2Vo>> map = categoryService.getCatalogJson();
         return map;

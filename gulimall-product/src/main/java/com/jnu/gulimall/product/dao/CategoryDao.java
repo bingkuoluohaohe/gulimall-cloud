@@ -3,6 +3,7 @@ package com.jnu.gulimall.product.dao;
 import com.jnu.gulimall.product.entity.CategoryEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 商品三级分类
@@ -13,5 +14,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CategoryDao extends BaseMapper<CategoryEntity> {
-	
+
+    int deleteByIds(@Param("ids") Long[] ids);
+
+    int updateByCatId(CategoryEntity category);
+
+    void updateSort(@Param("categorys") CategoryEntity[] category);
 }

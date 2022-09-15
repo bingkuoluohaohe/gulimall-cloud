@@ -21,5 +21,8 @@ public interface BrandService extends IService<BrandEntity> {
     void updateDetail(BrandEntity brand);
 
     List<BrandEntity> getBrandsByIds(List<Long> brandIds);
+
+    void updateStatus(BrandEntity brand);
+
 }
 

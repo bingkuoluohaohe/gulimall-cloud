@@ -21,7 +21,7 @@ public interface CategoryService extends IService<CategoryEntity> {
 
     List<CategoryEntity> listWithTree();
 
-    void removeMenuByids(List<Long> asList);
+    void removeMenuByids(Long[] ids);
 
     Long[] findCatelogPath(Long id);
 
@@ -30,5 +30,7 @@ public interface CategoryService extends IService<CategoryEntity> {
     List<CategoryEntity> getLevel1Categorys();
 
     Map<String, List<Catalog2Vo>> getCatalogJson();
+
+    void updateSort(CategoryEntity[] category);
 }
 

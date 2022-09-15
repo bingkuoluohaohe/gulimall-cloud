@@ -1,12 +1,6 @@
 server:
   port: 7000
 
-spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:5000
-
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:

@@ -10,7 +10,6 @@ import com.jnu.gulimall.product.entity.SkuImagesEntity;
 import com.jnu.gulimall.product.entity.SkuInfoEntity;
 import com.jnu.gulimall.product.entity.SpuInfoDescEntity;
 import com.jnu.gulimall.product.service.*;
-import com.jnu.gulimall.product.vo.SeckillSkuVo;
 import com.jnu.gulimall.product.vo.SkuItemSaleAttrVo;
 import com.jnu.gulimall.product.vo.SkuItemVo;
 import com.jnu.gulimall.product.vo.SpuItemAttrGroupVo;
@@ -110,7 +109,8 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     @Override
     public List<SkuInfoEntity> getSkusBySpuId(Long spuId) {
         QueryWrapper<SkuInfoEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("spu_id", spuId); return this.list();
+        wrapper.eq("spu_id", spuId);
+        return this.list(wrapper);
     }
 
     @Override
@@ -120,7 +120,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
         CompletableFuture<SkuInfoEntity> infoFuture = CompletableFuture.supplyAsync(() -> {
             //1、sku基本信息的获取  pms_sku_info
-            SkuInfoEntity info = this.getById(skuId); skuItemVo.setInfo(info); return info;
+            SkuInfoEntity info = this.getById(skuId);
+            skuItemVo.setInfo(info);
+            return info;
         }, executor);
 
         CompletableFuture<Void> saleAttrFuture = infoFuture.thenAcceptAsync((res) -> {
@@ -137,7 +139,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
         CompletableFuture<Void> baseAttrFuture = infoFuture.thenAcceptAsync((res) -> {
             //5、获取spu的规格参数信息
-            List<SpuItemAttrGroupVo> attrGroupVos = attrGroupService.getAttrGroupWithAttrsBySpuId(res.getSpuId(), res.getCatalogId());
+            List<SpuItemAttrGroupVo> attrGroupVos = attrGroupService.
+                    getAttrGroupWithAttrsBySpuId(res.getSpuId(), res.getCatalogId());
+
             skuItemVo.setGroupAttrs(attrGroupVos);
         }, executor);
 
@@ -146,7 +150,8 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
         //2、sku的图片信息    pms_sku_images
         CompletableFuture<Void> imageFuture = CompletableFuture.runAsync(() -> {
-            List<SkuImagesEntity> imagesEntities = skuImagesService.getImagesBySkuId(skuId); skuItemVo.setImages(imagesEntities);
+            List<SkuImagesEntity> imagesEntities = skuImagesService.getImagesBySkuId(skuId);
+            skuItemVo.setImages(imagesEntities);
         }, executor);
 
        /* // 3、查询当前sku是否参与秒杀活动
@@ -165,8 +170,8 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             }
         }, executor);*/
 
-
         //等到所有任务都完成
-        CompletableFuture.allOf(saleAttrFuture, descFuture, baseAttrFuture, imageFuture).get(); return skuItemVo;
+        CompletableFuture.allOf(saleAttrFuture, descFuture, baseAttrFuture, imageFuture).get();
+        return skuItemVo;
     }
 }

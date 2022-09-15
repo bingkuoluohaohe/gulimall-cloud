@@ -40,8 +40,8 @@ public class BrandEntity implements Serializable {
 
     /**
      * 品牌logo地址
+     * 品牌logo地址不能为空,并且logo必须是一个合法的url地址
      */
-    //品牌logo地址不能为空,并且logo必须是一个合法的url地址
     @NotBlank(groups = {AddGroup.class})
     @URL(message = "logo必须是一个合法的url地址", groups = {AddGroup.class, UpdateGroup.class})
     private String logo;
@@ -49,7 +49,6 @@ public class BrandEntity implements Serializable {
     /**
      * 介绍
      */
-    //介绍不做限制
     private String descript;
 
     /**

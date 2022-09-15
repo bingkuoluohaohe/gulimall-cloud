@@ -19,9 +19,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class MyCacheConfig {
 
-//    @Autowired
-//    CacheProperties cacheProperties;
-
     /**
      * 需要将配置文件中的配置设置上
      * 1、使配置类生效

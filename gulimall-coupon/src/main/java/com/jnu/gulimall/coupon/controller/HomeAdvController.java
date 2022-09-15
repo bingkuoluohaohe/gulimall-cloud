@@ -28,7 +28,6 @@ public class HomeAdvController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("coupon:homeadv:list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = homeAdvService.queryPage(params);
 
@@ -40,7 +39,6 @@ public class HomeAdvController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("coupon:homeadv:info")
     public R info(@PathVariable("id") Long id) {
         HomeAdvEntity homeAdv = homeAdvService.getById(id);
 
@@ -51,7 +49,6 @@ public class HomeAdvController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("coupon:homeadv:save")
     public R save(@RequestBody HomeAdvEntity homeAdv) {
         homeAdvService.save(homeAdv);
 
@@ -62,7 +59,6 @@ public class HomeAdvController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("coupon:homeadv:update")
     public R update(@RequestBody HomeAdvEntity homeAdv) {
         homeAdvService.updateById(homeAdv);
 
@@ -73,7 +69,6 @@ public class HomeAdvController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:homeadv:delete")
     public R delete(@RequestBody Long[] ids) {
         homeAdvService.removeByIds(Arrays.asList(ids));
 

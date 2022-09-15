@@ -15,7 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableFeignClients(basePackages = "com.jnu.gulimall.search.feign")
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 public class GulimallSearchApplication {
     public static void main(String[] args) {
         SpringApplication.run(GulimallSearchApplication.class);

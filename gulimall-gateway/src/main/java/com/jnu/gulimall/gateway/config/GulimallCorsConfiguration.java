@@ -17,9 +17,9 @@ public class GulimallCorsConfiguration {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
         //1、配置跨域
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);
 
         source.registerCorsConfiguration("/**",corsConfiguration);

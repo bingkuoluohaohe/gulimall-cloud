@@ -34,7 +34,6 @@ public class MemberStatisticsInfoController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("member:memberstatisticsinfo:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = memberStatisticsInfoService.queryPage(params);
 
@@ -46,7 +45,6 @@ public class MemberStatisticsInfoController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("member:memberstatisticsinfo:info")
     public R info(@PathVariable("id") Long id){
 		MemberStatisticsInfoEntity memberStatisticsInfo = memberStatisticsInfoService.getById(id);
 
@@ -57,7 +55,6 @@ public class MemberStatisticsInfoController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("member:memberstatisticsinfo:save")
     public R save(@RequestBody MemberStatisticsInfoEntity memberStatisticsInfo){
 		memberStatisticsInfoService.save(memberStatisticsInfo);
 
@@ -68,7 +65,6 @@ public class MemberStatisticsInfoController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("member:memberstatisticsinfo:update")
     public R update(@RequestBody MemberStatisticsInfoEntity memberStatisticsInfo){
 		memberStatisticsInfoService.updateById(memberStatisticsInfo);
 
@@ -79,7 +75,6 @@ public class MemberStatisticsInfoController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("member:memberstatisticsinfo:delete")
     public R delete(@RequestBody Long[] ids){
 		memberStatisticsInfoService.removeByIds(Arrays.asList(ids));
 

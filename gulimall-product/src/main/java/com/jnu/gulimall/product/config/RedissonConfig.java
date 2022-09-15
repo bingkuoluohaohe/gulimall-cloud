@@ -3,24 +3,26 @@ package com.jnu.gulimall.product.config;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
+
+import java.io.IOException;
 
 /**
- * @author zr
- * @date 2021/11/11 21:14
+ * @author ych
+ * @date 2022/9/15 21:14
  */
-@Component
+@Configuration
 public class RedissonConfig {
     /**
      * 所有对Redisson的操作都是通过redissonClient对象
      */
-//    @Bean(destroyMethod = "shutdown")
-    public RedissonClient redissonClient() {
+    @Bean(name = "redisson")
+    public RedissonClient redisson(@Value("${spring.redis.host}") String host, @Value("${spring.redis.password}") String password) throws IOException {
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://110.40.220.85:6379");
-        config.useSingleServer().setPassword("");
-        RedissonClient redisson = Redisson.create(config);
-        return redisson;
+        config.useSingleServer().setAddress("redis://" + host + ":6379");
+        config.useSingleServer().setPassword(password);
+        return Redisson.create(config);
     }
 }

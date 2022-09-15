@@ -14,7 +14,6 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -24,12 +23,11 @@ import org.elasticsearch.search.aggregations.metrics.AvgAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * [一句话描述该类的功能]
@@ -43,7 +41,7 @@ import java.util.List;
 @SpringBootTest
 public class ElasticSearchClientTest {
 
-    @Resource
+    @Autowired
     private RestHighLevelClient client;
 
     @Test
@@ -78,15 +76,16 @@ public class ElasticSearchClientTest {
         builder.aggregation(balanceAvg);
 
         System.out.println(builder.toString());
-
+        System.out.println("-----------------------------------------------------------------------------------");
         searchRequest.source(builder);
         SearchResponse search = client.search(searchRequest, GulimallElasticSearchConfig.COMMON_OPTIONS);
 
         System.out.println(search);
-
+        System.out.println("-----------------------------------------------------------------------------------");
         SearchHit[] hits = search.getHits().getHits();
         for (SearchHit hit : hits) {
             System.out.println(hit.getSourceAsMap());
+            System.out.println("-----------------------------------------------------------------------------------");
         }
 
         Aggregations aggregations = search.getAggregations();
@@ -95,6 +94,8 @@ public class ElasticSearchClientTest {
         for (Terms.Bucket bucket : ageAgg1.getBuckets()) {
             String keyAsString = bucket.getKeyAsString();
             System.out.println(keyAsString);
+            System.out.println(bucket.getDocCount());
+            System.out.println("-----------------------------------------------------------------------------------");
         }
 
         Avg balanceAvg1 = aggregations.get("balanceAvg");
@@ -106,7 +107,7 @@ public class ElasticSearchClientTest {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    class User {
+    static class User {
         private String userName;
         private int age;
         private String gender;

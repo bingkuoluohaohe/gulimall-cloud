@@ -24,6 +24,9 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
     @Resource
     private CategoryBrandRelationService categoryBrandRelationService;
 
+    @Resource
+    private BrandDao brandDao;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         String key = (String) params.get("key");
@@ -51,6 +54,11 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
     @Override
     public List<BrandEntity> getBrandsByIds(List<Long> brandIds) {
         return baseMapper.selectList(new QueryWrapper<BrandEntity>().in("brand_id", brandIds));
+    }
+
+    @Override
+    public void updateStatus(BrandEntity brand) {
+        brandDao.updateStatus(brand);
     }
 
 }

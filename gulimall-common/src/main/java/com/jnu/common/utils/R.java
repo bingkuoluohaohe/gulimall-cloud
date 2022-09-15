@@ -36,15 +36,13 @@ public class R extends HashMap<String, Object> {
     public <T> T getData(String key, TypeReference<T> typeReference) {
         Object data = get(key);// 默认是map类型，springmvc做的
         String jsonStr = JSON.toJSONString(data);
-        T t = JSON.parseObject(jsonStr, typeReference);
-        return t;
+        return JSON.parseObject(jsonStr, typeReference);
     }
 
     public <T> T getData(TypeReference<T> typeReference) {
         Object data = get("data");
         String s = JSON.toJSONString(data);
-        T t = JSON.parseObject(s, typeReference);
-        return t;
+        return JSON.parseObject(s, typeReference);
     }
 
     public static R error() {

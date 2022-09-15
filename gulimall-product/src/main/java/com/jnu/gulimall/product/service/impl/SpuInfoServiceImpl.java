@@ -245,12 +245,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
         List<Long> searchAttrIds = attrService.selectSearchAttrs(attrIds); ;
         Set<Long> idSet = new HashSet<>(searchAttrIds);
-        List<SkuEsModel.Attrs> list = baseAttrlistforspu.stream().filter(attr -> {
-            return idSet.contains(attr.getAttrId());
-        }).map(attr -> {
-            SkuEsModel.Attrs attrs = new SkuEsModel.Attrs();
-            BeanUtils.copyProperties(attr, attrs);
-            return attrs;
+        List<SkuEsModel.Attrs> list = baseAttrlistforspu.stream().filter(attr -> idSet.contains(attr.getAttrId()))
+                .map(attr -> {
+                SkuEsModel.Attrs attrs = new SkuEsModel.Attrs();
+                BeanUtils.copyProperties(attr, attrs);
+                return attrs;
         }).collect(Collectors.toList());
 
         // TODO 发送远程调用，库存系统查询是否有库存
@@ -282,6 +281,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             BrandEntity brandEntity = brandService.getById(skuEsModel.getBrandId());
             skuEsModel.setBrandName(brandEntity.getName());
             skuEsModel.setBrandImg(brandEntity.getLogo());
+
             CategoryEntity categoryEntity = categoryService.getById(skuEsModel.getCatalogId());
             skuEsModel.setCatalogName(categoryEntity.getName());
             skuEsModel.setAttrs(list);
@@ -295,33 +295,32 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             // 远程调用成功
             // TODO 6、修改当前spu的状态 上架
             baseMapper.updateSpuStatus(spuId, ProductConstant.StatusEnum.SPU_UP.getCode());
-        } else {
-            // 远程调用失败
-            // TODO 7、重复调用？接口幂等性：重试机制？
-            //Feign调用流程
-            /**
-             * 1、构造请求数据，将对象转为json
-             *      RequestTemplate template = buildTemplateFromArgs.create(argv);
-             * 2、发送请求进行执行：【执行成功会解码响应数据】
-             *      excuteAndDecode(template)
-             * 3、执行请求会有重试机制
-             *      while(true){
-             *          try{
-             *              excuteAndDecode(template)
-             *          }catch() {
-             *              try{
-             *                  // 默认重试5次，也有不重试
-             *                  retryer.continueOrPropagate(e);
-             *               }catch() {
-             *                  throw ex;
-             *               }
-             *              continue;
-             *          }
-             *      }
-             *
-             *
-             */
         }
+        // 远程调用失败
+        // TODO 7、重复调用？接口幂等性：重试机制？
+        //Feign调用流程
+        /*
+          1、构造请求数据，将对象转为json
+               RequestTemplate template = buildTemplateFromArgs.create(argv);
+          2、发送请求进行执行：【执行成功会解码响应数据】
+               excuteAndDecode(template)
+          3、执行请求会有重试机制
+               while(true){
+                   try{
+                       excuteAndDecode(template)
+                   }catch() {
+                       try{
+                           // 默认重试5次，也有不重试
+                           retryer.continueOrPropagate(e);
+                        }catch() {
+                           throw ex;
+                        }
+                       continue;
+                   }
+               }
+
+
+         */
     }
 
 }

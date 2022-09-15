@@ -51,6 +51,7 @@
 	</properties>
 
 	<dependencies>
+        <!--gulimall-common-->
 		<dependency>
 			<groupId>com.jnu.gulimall</groupId>
 			<artifactId>gulimall-common</artifactId>
@@ -322,6 +323,7 @@
 			</releases>
 		</repository>
 	</repositories>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>public</id>

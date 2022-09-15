@@ -3,7 +3,7 @@
 
 <mapper namespace="com.jnu.gulimall.product.dao.CategoryDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.jnu.gulimall.product.entity.CategoryEntity" id="categoryMap">
         <result property="catId" column="cat_id"/>
         <result property="name" column="name"/>
@@ -16,5 +16,41 @@
         <result property="productCount" column="product_count"/>
     </resultMap>
 
+    <update id="updateByCatId">
+        UPDATE pms_category
+        SET `name`       = #{catId},
+            icon         = #{icon},
+            product_unit = #{productUnit}
+        WHERE cat_id = #{catId}
+          AND show_status = 1
+    </update>
+
+    <update id="updateSort">
+        <foreach collection="categorys" item="category" separator=";">
+            UPDATE pms_category
+            <set>
+                <if test="category.parentCid != null">
+                    parent_cid = #{category.parentCid},
+                </if>
+                <if test="category.catLevel != null">
+                    cat_level = #{category.catLevel},
+                </if>
+                sort = #{category.sort}
+            </set>
+            WHERE cat_id = #{category.catId}
+            AND show_status = 1
+        </foreach>
+    </update>
+
+    <delete id="deleteByIds">
+        UPDATE pms_category
+        SET show_status = 0
+        WHERE cat_id
+        IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+        AND show_status = 1
+    </delete>
 
 </mapper>

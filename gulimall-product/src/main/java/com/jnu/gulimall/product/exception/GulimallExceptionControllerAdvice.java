@@ -22,13 +22,14 @@ import java.util.Map;
 @Slf4j
 //@ResponseBody
 //@ControllerAdvice(basePackages = "")
-@RestControllerAdvice(basePackages = "com.jnu.gulimall.product.app")
+@RestControllerAdvice(basePackages = "com.jnu.gulimall.product.controller")
 public class GulimallExceptionControllerAdvice {
 
-    //处理参数验证异常
+    /**
+     * 处理参数验证异常
+     */
     @ExceptionHandler(value= MethodArgumentNotValidException.class)
     public R handleVaildException(MethodArgumentNotValidException e){
-
         log.error("数据校验出现问题{}，异常类型：{}",e.getMessage(),e.getClass());
         BindingResult bindingResult = e.getBindingResult();
 
@@ -38,10 +39,12 @@ public class GulimallExceptionControllerAdvice {
 
         return R.error(BizCodeEnume.VALID_EXCEPTION.getCode(),BizCodeEnume.VALID_EXCEPTION.getMsg()).put("data",errorMap);
     }
-    //其他所有异常
+
+    /**
+     * 其他所有异常
+     */
     @ExceptionHandler(value = Throwable.class)
     public R handleException(Throwable throwable){
-
         log.error("错误：",throwable);
         return R.error(BizCodeEnume.UNKNOW_EXCEPTION.getCode(),BizCodeEnume.UNKNOW_EXCEPTION.getMsg());
     }

@@ -1,24 +1,17 @@
 server:
-  port: 10001
+  port: 10000
+
 spring:
-  cloud:
-    alicloud:
-      access-key: LTAI5tSkvhNmJF4h5qbZqBsF
-      secret-key: lgHjabatTWp0T2WfchecLv1bBXqaq6
-      oss:
-        endpoint: oss-cn-shanghai.aliyuncs.com
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   thymeleaf:
     cache: false
-  resources:
-    static-locations: classpath:templates/,classpath:static/
-
   cache:
     type: redis
     redis:
       time-to-live: 3600000
-      key-prefix: CACHE_
+      cache-null-values: true
   mvc:
     servlet:
       load-on-startup: 100
@@ -33,4 +26,8 @@ mybatis-plus:
 
 logging:
   level:
-    com.jnu.gulimall: debug
+    com.jnu.gulimall.product.dao: debug
+
+feign:
+  httpclient:
+    connection-timeout: 5000

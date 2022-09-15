@@ -14,5 +14,11 @@
         <result property="sort" column="sort"/>
     </resultMap>
 
+    <update id="updateStatus">
+        UPDATE pms_brand
+        SET show_status = #{showStatus}
+        WHERE brand_id = #{brandId};
+    </update>
+
 
 </mapper>

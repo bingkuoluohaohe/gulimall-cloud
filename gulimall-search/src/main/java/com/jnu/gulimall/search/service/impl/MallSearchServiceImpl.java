@@ -13,6 +13,7 @@ import com.jnu.gulimall.search.vo.BrandVo;
 import com.jnu.gulimall.search.vo.SearchParam;
 import com.jnu.gulimall.search.vo.SearchResult;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.lucene.search.TotalHits;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -121,8 +122,10 @@ public class MallSearchServiceImpl implements MallSearchService {
             boolQueryBuilder.must(QueryBuilders.matchQuery("skuTitle", param.getKeyword()));
         }
 
-        // 1.2、filter【无得分】
-        // 三级分类
+        /*
+        1.2、filter【无得分】
+        三级分类
+        */
         if (param.getCatalog3Id() != null) {
             boolQueryBuilder.filter(QueryBuilders.termQuery("catalogId", param.getCatalog3Id()));
         }
@@ -175,7 +178,7 @@ public class MallSearchServiceImpl implements MallSearchService {
         // 1、END 封装查询条件
         sourceBuilder.query(boolQueryBuilder);
 
-        /**
+        /*
          * 排序，分页，高亮
          */
         // 2.1、排序
@@ -198,7 +201,7 @@ public class MallSearchServiceImpl implements MallSearchService {
             sourceBuilder.highlighter(highlightBuilder);
         }
 
-        /**
+        /*
          * 聚合分析【品牌、分类、分析所有可选的规格】
          */
         // 3.1、品牌聚合
@@ -322,7 +325,8 @@ public class MallSearchServiceImpl implements MallSearchService {
         }
         result.setCatalogs(catalogVos);
         // 5、分页信息   pageNum:当前页码 、total:总记录数 、totalPages: 总页码
-        long total = hits.getTotalHits().value;
+        TotalHits totalHits = hits.getTotalHits();
+        long total = totalHits.value;
         int totalPages = (int) total % EsConstant.PRODUCT_PAGESIZE == 0 ? (int) total / EsConstant.PRODUCT_PAGESIZE : ((int) total / EsConstant.PRODUCT_PAGESIZE + 1);
         result.setPageNum(param.getPageNum());
         result.setTotal(total);
@@ -359,7 +363,7 @@ public class MallSearchServiceImpl implements MallSearchService {
                 //2、取消了这个面包屑以后，我们要跳转到哪个地方，将请求的地址url里面的当前置空
                 //拿到所有的查询条件，去掉当前
                 String replace = replaceQueryString(param, attr, "attrs");
-                navVo.setLink("http://localhost:12000/list.html?" + replace);
+                navVo.setLink("http://localhost/search/list.html?" + replace);
 
                 return navVo;
             }).collect(Collectors.toList());
