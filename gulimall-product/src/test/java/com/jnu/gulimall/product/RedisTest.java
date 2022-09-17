@@ -47,11 +47,10 @@ public class RedisTest {
 
     @Test
     public void testHash() {
-        redisTemplate.opsForHash().put("gulimall:user-1","name","张三");
-        redisTemplate.opsForHash().put("gulimall:user-1","age","18");
-        redisTemplate.opsForHash().put("gulimall:user-2","name","李四");
-        redisTemplate.opsForHash().put("gulimall:user-2","age","18");
-
+        redisTemplate.opsForHash().put("gulimall:user-1", "name", "张三");
+        redisTemplate.opsForHash().put("gulimall:user-1", "age", "18");
+        redisTemplate.opsForHash().put("gulimall:user-2", "name", "李四");
+        redisTemplate.opsForHash().put("gulimall:user-2", "age", "18");
         Map<Object, Object> entries = redisTemplate.opsForHash().entries("gulimall:user-1");
         System.out.println(entries);
     }

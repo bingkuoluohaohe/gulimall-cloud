@@ -4,12 +4,18 @@ server:
     session:
       timeout: 30m
 
+
 spring:
   thymeleaf:
     cache: false
-  redis:
-    host: 110.40.220.85
-    port: 6379
-    password: 48691412
   session:
     store-type: redis
+
+feign:
+  client:
+    config:
+      default:
+        #建立连接所用的时间，适用于网络状况正常的情况下，两端连接所需要的时间,
+        ConnectTimeOut: 5000
+        #指建立连接后从服务端读取到可用资源所用的时间,默认为1s
+        ReadTimeOut: 5000

@@ -83,6 +83,7 @@ gulimll
 | OSS            | 对象存储           | https://github.com/aliyun/aliyun-oss-java-sdk  |
 | JWT            | JWT登录支持        | https://github.com/jwtk/jjwt                   |
 | Lombok         | 简化对象封装工具   | https://github.com/rzwitserloot/lombok         |
+| 腾讯云短信服务 |                    | https://cloud.tencent.com/search/短信/1_1      |
 
 #### 前端技术
 

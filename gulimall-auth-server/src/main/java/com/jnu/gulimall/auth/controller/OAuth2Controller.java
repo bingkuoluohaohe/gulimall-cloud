@@ -25,19 +25,20 @@ import java.util.Map;
 @Slf4j
 @Controller
 public class OAuth2Controller {
+
     @Resource
     MemberFeignService memberFeignService;
+
     @GetMapping(value = "/oauth2.0/gitee/success")
     public String gitee(@RequestParam("code") String code, HttpSession session) throws Exception {
 
         //这个几个参数格式是强制性的 可以参考码云的官方api
-        Map<String,String> params = new HashMap<>();
-        params.put("grant_type","authorization_code");
-        params.put("code",code);
+        Map<String, String> params = new HashMap<>();
+        params.put("grant_type", "authorization_code");
+        params.put("code", code);
         params.put("client_id", GiteeConstant.clientId);
-        params.put("redirect_uri",GiteeConstant.callback);
-        params.put("client_secret",GiteeConstant.secret);
-
+        params.put("redirect_uri", GiteeConstant.callback);
+        params.put("client_secret", GiteeConstant.secret);
 
         //1、根据用户授权返回的code换取access_token
         HttpResponse response = HttpUtils.doPost("https://gitee.com", "/oauth/token", "post", new HashMap<>(), params, new HashMap<>());
@@ -55,8 +56,9 @@ public class OAuth2Controller {
             //调用远程服务
             R oauthLogin = memberFeignService.oauthLogin(socialUser);
             if (oauthLogin.getCode() == 0) {
-                MemberResponseVo data = oauthLogin.getData("data", new TypeReference<MemberResponseVo>() {});
-                log.info("登录成功：用户信息：\n{}",data.toString());
+                MemberResponseVo data = oauthLogin.getData("data", new TypeReference<MemberResponseVo>() {
+                });
+                log.info("登录成功：用户信息：\n{}", data.toString());
 
                 //1、第一次使用session，命令浏览器保存卡号，JSESSIONID这个cookie
                 //以后浏览器访问哪个网站就会带上这个网站的cookie
@@ -65,12 +67,13 @@ public class OAuth2Controller {
                 session.setAttribute(AuthServerConstant.LOGIN_USER, data);
 
                 //2、登录成功跳回首页
-                return "redirect:http://gulimall.com";
+                return "redirect:http://localhost/shop-vue";
             } else {
-                return "redirect:http://auth.gulimall.com/login.html";
+                return "redirect:http://localhost/auth/login.html";
             }
         } else {
-            return "redirect:http://auth.gulimall.com/login.html";
+            return "redirect:http://localhost/auth/login.html";
         }
     }
+
 }

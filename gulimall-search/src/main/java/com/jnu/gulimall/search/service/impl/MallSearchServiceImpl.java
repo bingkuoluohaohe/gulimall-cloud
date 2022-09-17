@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author 游成鹤
- * @date 2021/11/17 18:06
+ * @date 2022/09/17 18:06
  */
 @Service
 public class MallSearchServiceImpl implements MallSearchService {

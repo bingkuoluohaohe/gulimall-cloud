@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
  * [一句话描述该类的功能]
@@ -13,6 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @version : [v1.0]
  * @createTime : [2022/8/24 12:49]
  */
+@EnableRedisHttpSession
 @EnableFeignClients(basePackages = "com.jnu.gulimall.search.feign")
 @EnableDiscoveryClient
 @SpringBootApplication

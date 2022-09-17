@@ -6,3 +6,5 @@ spring:
     cache: false
   resources:
       static-locations: classpath:templates/,classpath:static/
+  session:
+    store-type: redis

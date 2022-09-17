@@ -10,7 +10,6 @@ import com.jnu.gulimall.auth.feign.ThirdPartFeignService;
 import com.jnu.gulimall.auth.vo.UserLoginVo;
 import com.jnu.gulimall.auth.vo.UserRegisterVo;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -33,10 +31,13 @@ import java.util.stream.Collectors;
 
 @Controller
 public class LoginController {
+
     @Resource
     private ThirdPartFeignService thirdPartFeignService;
+
     @Resource
     private MemberFeignService memberFeignService;
+
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
@@ -47,9 +48,9 @@ public class LoginController {
         //1、接口防刷
         String redisCode = stringRedisTemplate.opsForValue().get(AuthServerConstant.SMS_CODE_CACHE_PREFIX + phone);
         if (!StringUtils.isEmpty(redisCode)) {
-            //活动存入redis的时间，用当前时间减去存入redis的时间，判断用户手机号是否在60s内发送验证码
+            //活动存入redis的时间，用当前时间减去存入redis的时间，判断用户手机号是否在10m内发送验证码
             long currentTime = Long.parseLong(redisCode.split("_")[1]);
-            if (System.currentTimeMillis() - currentTime < 60000) {
+            if (System.currentTimeMillis() - currentTime < 10 * 60 * 1000) {
                 //60s内不能再发
                 return R.error(BizCodeEnume.SMS_CODE_EXCEPTION.getCode(), BizCodeEnume.SMS_CODE_EXCEPTION.getMsg());
             }
@@ -63,16 +64,19 @@ public class LoginController {
         String redisStorage = codeNum + "_" + System.currentTimeMillis();
 
         //存入redis，防止同一个手机号在60秒内再次发送验证码
-        stringRedisTemplate.opsForValue().set(AuthServerConstant.SMS_CODE_CACHE_PREFIX + phone,
-                redisStorage,365, TimeUnit.DAYS);
+        stringRedisTemplate.opsForValue().set(AuthServerConstant.SMS_CODE_CACHE_PREFIX + phone, redisStorage, 10, TimeUnit.MINUTES);
 
-        thirdPartFeignService.sendCode(phone, codeNum);
-
-        return R.ok();
+        R r = thirdPartFeignService.sendCode(phone, codeNum);
+        Integer ans = r.getCode();
+        if (ans == 0) {
+            return R.ok();
+        } else {
+//            stringRedisTemplate.delete(AuthServerConstant.SMS_CODE_CACHE_PREFIX + phone);
+            return R.error(400, "验证码发送失败");
+        }
     }
 
     /**
-     *
      * TODO: 重定向携带数据：利用session原理，将数据放在session中。
      * TODO:只要跳转到下一个页面取出这个数据以后，session里面的数据就会删掉
      * TODO：分布下session问题
@@ -88,7 +92,7 @@ public class LoginController {
             attributes.addFlashAttribute("errors", errors);
 
             //效验出错回到注册页面
-            return "redirect:http://auth.gulimall.com/reg.html";
+            return "redirect:http://localhost/auth/reg.html";
             // 1、return "reg"; 请求转发【使用Model共享数据】【异常：，405 POST not support】
             // 2、"redirect:http:/reg.html"重定向【使用RedirectAttributes共享数据】【bug：会以ip+port来重定向】
             // 3、redirect:http://auth.gulimall.com/reg.html重定向【使用RedirectAttributes共享数据】
@@ -103,32 +107,33 @@ public class LoginController {
             // 判断验证码是否正确【有BUG，如果字符串存储有问题，没有解析出code，数据为空，导致验证码永远错误】
             if (code.equals(redisCode.split("_")[0])) {
                 //删除验证码（不可重复使用）;令牌机制
-                stringRedisTemplate.delete(AuthServerConstant.SMS_CODE_CACHE_PREFIX+vos.getPhone());
+                stringRedisTemplate.delete(AuthServerConstant.SMS_CODE_CACHE_PREFIX + vos.getPhone());
                 //验证码通过，真正注册，调用远程服务进行注册【会员服务】
                 R register = memberFeignService.register(vos);
                 if (register.getCode() == 0) {
                     //成功
-                    return "redirect:http://auth.gulimall.com/login.html";
+                    return "redirect:http://localhost/auth/login.html";
                 } else {
                     //失败
                     Map<String, String> errors = new HashMap<>();
-                    errors.put("msg", register.getData("msg",new TypeReference<String>(){}));
-                    attributes.addFlashAttribute("errors",errors);
-                    return "redirect:http://auth.gulimall.com/reg.html";
+                    errors.put("msg", register.getData("msg", new TypeReference<String>() {
+                    }));
+                    attributes.addFlashAttribute("errors", errors);
+                    return "redirect:http://localhost/auth/reg.html";
                 }
             } else {
                 //验证码错误
                 Map<String, String> errors = new HashMap<>();
-                errors.put("code","验证码错误");
-                attributes.addFlashAttribute("errors",errors);
-                return "redirect:http://auth.gulimall.com/reg.html";
+                errors.put("code", "验证码错误");
+                attributes.addFlashAttribute("errors", errors);
+                return "redirect:http://localhost/auth/reg.html";
             }
         } else {
             // redis中验证码过期
             Map<String, String> errors = new HashMap<>();
-            errors.put("code","验证码过期");
-            attributes.addFlashAttribute("errors",errors);
-            return "redirect:http://auth.gulimall.com/reg.html";
+            errors.put("code", "验证码过期");
+            attributes.addFlashAttribute("errors", errors);
+            return "redirect:http://localhost/auth/reg.html";
         }
     }
 
@@ -137,14 +142,17 @@ public class LoginController {
         //远程登录
         R login = memberFeignService.login(vo);
         if (login.getCode() == 0) {
-            MemberResponseVo data = login.getData("data", new TypeReference<MemberResponseVo>() {});
+            MemberResponseVo data = login.getData("data", new TypeReference<MemberResponseVo>() {
+            });
+            System.out.println(data);
             session.setAttribute(AuthServerConstant.LOGIN_USER, data);
-            return "redirect:http://gulimall.com";
+            return "redirect:http://localhost/shop-vue/";
         } else {
-            Map<String,String> errors = new HashMap<>();
-            errors.put("msg",login.getData("msg",new TypeReference<String>(){}));
-            attributes.addFlashAttribute("errors",errors);
-            return "redirect:http://auth.gulimall.com/login.html";
+            Map<String, String> errors = new HashMap<>();
+            errors.put("msg", login.getData("msg", new TypeReference<String>() {
+            }));
+            attributes.addFlashAttribute("errors", errors);
+            return "redirect:http://localhost/auth/login.html";
         }
     }
 
@@ -159,7 +167,8 @@ public class LoginController {
         if (attribute == null) {
             return "login";
         } else {
-            return "redirect:http://localhost:13000";
+            return "redirect:http://localhost/shop-vue/";
         }
     }
+
 }

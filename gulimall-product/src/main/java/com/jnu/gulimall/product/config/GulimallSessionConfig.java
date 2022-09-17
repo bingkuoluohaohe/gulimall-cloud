@@ -1,4 +1,4 @@
-package com.jnu.gulimall.auth.config;
+package com.jnu.gulimall.product.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

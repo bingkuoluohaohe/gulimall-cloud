@@ -11,8 +11,8 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * @author zr
- * @date 2021/11/14 16:57
+ * @author ych
+ * @date 2022/09/14 16:57
  */
 @EnableConfigurationProperties(CacheProperties.class)
 @EnableCaching

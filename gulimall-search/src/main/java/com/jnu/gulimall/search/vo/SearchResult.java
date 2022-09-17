@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author zr
- * @date 2021/11/17 15:06
+ * @author ych
+ * @date 2022/09/17 15:06
  */
 @Data
 public class SearchResult {

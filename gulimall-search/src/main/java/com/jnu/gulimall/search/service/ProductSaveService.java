@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author zr
- * @date 2021/10/26 13:50
+ * @author ych
+ * @date 2022/10/26 13:50
  */
 public interface ProductSaveService {
     boolean productStatusUp(List<SkuEsModel> skuEsModels) throws IOException;

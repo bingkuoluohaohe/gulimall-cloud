@@ -5,8 +5,8 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * @author zr
- * @date 2021/11/17 15:02
+ * @author ych
+ * @date 2022/09/17 15:02
  */
 @Data
 public class SearchParam {

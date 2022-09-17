@@ -65,11 +65,11 @@
         </b>
         <ul>
           <li>
-            <a th:if="${session.loginUser == null}" href="http://auth.gulimall.com/login.html" class="li_2">你好，请登录</a>
-            <a th:if="${session.loginUser != null}">欢迎, [[${session.loginUser.nickname}]]</a>
+            <a th:if="${session.loginUser == null}" href="http://localhost/auth/login.html" class="li_2">您好，请登录</a>
+            <a th:if="${session.loginUser != null}">欢迎您, [[${session.loginUser.nickname}]]</a>
           </li>
           <li>
-            <a th:if="${session.loginUser == null}" href="http://auth.gulimall.com/reg.html" style="color: red;">免费注册</a>
+            <a th:if="${session.loginUser == null}" href="http://localhost/auth/reg.html" style="color: red;">免费注册</a>
           </li>
           <span>|</span>
           <li>
@@ -409,7 +409,7 @@
       </div>
       <div class="header_ico">
         <div class="header_gw">
-          <span><a href="http://cart.gulimall.com/cart.html">我的购物车</a></span>
+          <span><a href="http://localhost/cart/cart.html">我的购物车</a></span>
           <img src="../gulimall/search/image/settleup-@1x.png"/>
           <span>0</span>
         </div>

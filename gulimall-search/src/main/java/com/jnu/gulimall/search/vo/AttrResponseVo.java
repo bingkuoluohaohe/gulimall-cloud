@@ -3,8 +3,8 @@ package com.jnu.gulimall.search.vo;
 import lombok.Data;
 
 /**
- * @author zr
- * @date 2021/11/22 22:02
+ * @author ych
+ * @date 2022/09/22 22:02
  */
 @Data
 public class AttrResponseVo {
