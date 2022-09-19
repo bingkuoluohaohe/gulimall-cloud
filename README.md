@@ -18,13 +18,15 @@
 
 ### 项目演示
 
+云服务器内存不足，采用单体架构部署 [gulimall: 谷粒商城 (gitee.com)](https://gitee.com/bingkuoluohaohe/gulimall)
+
 #### 后台管理系统
 
-项目演示地址： [admin-vue](http://codekenan.icu/gulimall-admin/)  
+项目演示地址： [admin-vue](http://codekenan.icu/admin-vue/)  
 
 #### 前台商城系统
 
-项目演示地址： [shop-vue](http://codekenan.icu/product)
+项目演示地址： [shop-vue](http://codekenan.icu/shop-vue)
 
 
 

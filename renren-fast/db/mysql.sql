@@ -1,4 +1,5 @@
 -- 菜单
+DROP TABLE `sys_menu`
 CREATE TABLE `sys_menu`
 (
     `menu_id`   bigint NOT NULL AUTO_INCREMENT,
@@ -14,6 +15,7 @@ CREATE TABLE `sys_menu`
   DEFAULT CHARACTER SET utf8mb4 COMMENT ='菜单管理';
 
 -- 系统用户
+DROP TABLE `sys_user`
 CREATE TABLE `sys_user`
 (
     `user_id`        bigint      NOT NULL AUTO_INCREMENT,
@@ -31,6 +33,7 @@ CREATE TABLE `sys_user`
   DEFAULT CHARACTER SET utf8mb4 COMMENT ='系统用户';
 
 -- 系统用户Token
+DROP TABLE `sys_user_token`
 CREATE TABLE `sys_user_token`
 (
     `user_id`     bigint(20)   NOT NULL,
@@ -43,6 +46,7 @@ CREATE TABLE `sys_user_token`
   DEFAULT CHARACTER SET utf8mb4 COMMENT ='系统用户Token';
 
 -- 系统验证码
+DROP TABLE `sys_captcha`
 CREATE TABLE `sys_captcha`
 (
     `uuid`        char(36)   NOT NULL COMMENT 'uuid',
@@ -53,6 +57,7 @@ CREATE TABLE `sys_captcha`
   DEFAULT CHARACTER SET utf8mb4 COMMENT ='系统验证码';
 
 -- 角色
+
 CREATE TABLE `sys_role`
 (
     `role_id`        bigint NOT NULL AUTO_INCREMENT,
